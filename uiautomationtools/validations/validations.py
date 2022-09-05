@@ -33,9 +33,9 @@ class Validations(object):
 
     def update_reference_paths(self):
         app_dir = dir_helpers.get_src_app_dir()
-        self.references_directory = f'{dir_helpers.get_root_dir()}/validations/' \
-                                    f'{app_dir}/{self.driver.platform_name}'
-        self.references_file_paths = [ref for ref in iglob(f'{self.references_directory}//**', recursive=True)
+        self.references_directory = f'{dir_helpers.get_root_dir()}{dir_helpers.DIR_SEPARATOR}validations{dir_helpers.DIR_SEPARATOR}' \
+                                    f'{app_dir}{dir_helpers.DIR_SEPARATOR}{dir_helpers.is_mac(self.driver.platform_name)}'
+        self.references_file_paths = [ref for ref in iglob(f'{self.references_directory}{dir_helpers.DIR_SEPARATOR}{dir_helpers.DIR_SEPARATOR}**', recursive=True)
                                       if '.json' in ref]
 
     def _write_json(self, references, file_path=None):

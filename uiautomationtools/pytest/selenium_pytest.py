@@ -33,17 +33,20 @@ class PytestHelper(object):
         self.root_dir = self.root_dir or dh.get_root_dir()
         self.app_dir = dh.get_src_app_dir()
         self.calling_test = self.calling_test or os.environ.get('PYTEST_CURRENT_TEST').split('::')[0]
+        self.calling_test = os.path.join(*self.calling_test.split("/"))
+
+
         if 'None' in self.test_path:
-            self.test_path = f"{self.root_dir}/{self.calling_test}"
+            self.test_path = f"{self.root_dir}{dh.DIR_SEPARATOR}{self.calling_test}"
 
-        self.test_data = f"{self.root_dir}/tests/{self.app_dir}/data/"
+        self.test_data = f"{self.root_dir}{dh.DIR_SEPARATOR}tests{dh.DIR_SEPARATOR}{self.app_dir}{dh.DIR_SEPARATOR}data{dh.DIR_SEPARATOR}"
 
-        files = iglob(f'{self.root_dir}/credentials//**', recursive=True)
+        files = iglob(f'{self.root_dir}{dh.DIR_SEPARATOR}credentials{dh.DIR_SEPARATOR}{dh.DIR_SEPARATOR}**', recursive=True)
         if not self.credentials:
             self.credentials = {os.path.basename(f).split('.')[0]: dh.load_json(f)
                                 for f in files if os.path.basename(f)}
 
-        model_name = self.calling_test.split('/')[-1].split('.')[0]
+        model_name = self.calling_test.split(dh.DIR_SEPARATOR)[-1].split('.')[0]
         self.model_steps = self.model_steps or mc.prepare_steps(model_name, self.new_steps, self.decision_map)
         self.original_model_steps = self.model_steps[:] # deepcopy if doesnt work
 
@@ -90,8 +93,8 @@ class PytestHelper(object):
         current_test_module = ''
         my_class = None
 
-        py_test_path = f'{self.root_dir}/tests/{self.app_dir}'
-        all_test_paths = [py_test for py_test in iglob(f'{py_test_path}//**', recursive=True)
+        py_test_path = f'{self.root_dir}{dh.DIR_SEPARATOR}tests{dh.DIR_SEPARATOR}{self.app_dir}'
+        all_test_paths = [py_test for py_test in iglob(f'{py_test_path}{dh.DIR_SEPARATOR}{dh.DIR_SEPARATOR}**', recursive=True)
                           if py_test.split('.')[-1] == 'py']
 
         if PytestHelper.model_steps:
@@ -110,12 +113,12 @@ class PytestHelper(object):
             step_name = step['name']
 
             try:
-                if test_module == 'self' or test_module == self.test_path.split('/')[-1]:
+                if test_module == 'self' or test_module == self.test_path.split(dh.DIR_SEPARATOR)[-1]:
                     eval(f"self.{step_name}()")
                 else:
                     if test_module != current_test_module:
                         test_path = dh.find_reference_in_list(f'{test_module}.py', all_test_paths)
-                        test_module_path = '.'.join(test_path.replace(self.root_dir, '').split('/')[1:-1])
+                        test_module_path = '.'.join(test_path.replace(self.root_dir, '').split(dh.DIR_SEPARATOR)[1:-1])
 
                         module = importlib.import_module(f"{test_module_path}.{test_module}")
                         class_name = sh.delimiter_to_camelcase(test_module)
@@ -127,11 +130,10 @@ class PytestHelper(object):
                         my_class.PARAMS.update(self.PARAMS)
                         method_name = my_class.__dict__.get(step_name)
                     method_name(self)
-
                 self.store[target]['steps_completed'].append(step)
                 self.store[target]['step_pass'][-1] = True
             except Exception as e:
-                fail_path = self.store[target]['logs_path'].replace('/pass/', '/fail/')
+                fail_path = self.store[target]['logs_path'].replace(f'{dh.DIR_SEPARATOR}pass{dh.DIR_SEPARATOR}', f'{dh.DIR_SEPARATOR}fail{dh.DIR_SEPARATOR}')
                 self.app.driver.logger.error(e, exc_info=True)
                 shutil.move(self.store[target]['logs_path'], fail_path)
                 raise Exception(e)

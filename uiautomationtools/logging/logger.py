@@ -32,12 +32,14 @@ class Logger(object):
         calling_test = os.environ.get('PYTEST_CURRENT_TEST')
         target = re.findall(r'\[(.*?)\]', calling_test) or ['']
         target = target[0]
-        file_path = f"{self.root_dir}/{calling_test.split('::')[0].replace('test_', f'test_{target}_')}"
-        file_path = file_path.replace('/tests/', f'/run_info/run_logs/{target}/')
+        temp = os.path.join(*calling_test.split('::')[0].replace('test_', f'test_{target}_').split("/"))
+        file_path = f"{self.root_dir}{dh.DIR_SEPARATOR}{temp}"
+        file_path = file_path.replace(f'{dh.DIR_SEPARATOR}tests{dh.DIR_SEPARATOR}',
+                                      f'{dh.DIR_SEPARATOR}run_info{dh.DIR_SEPARATOR}run_logs{dh.DIR_SEPARATOR}{target}{dh.DIR_SEPARATOR}')
+        self.log_dir = dh.DIR_SEPARATOR.join(file_path.split(dh.DIR_SEPARATOR)[:-1])
 
-        self.log_dir = '/'.join(file_path.split('/')[:-1])
-        log_dir_path_pass = f'{self.log_dir}/pass'
-        log_dir_path_fail = f'{self.log_dir}/fail'
+        log_dir_path_pass = f'{self.log_dir}{dh.DIR_SEPARATOR}pass'
+        log_dir_path_fail = f'{self.log_dir}{dh.DIR_SEPARATOR}fail'
         dh.safe_mkdirs(log_dir_path_pass)
         dh.safe_mkdirs(log_dir_path_fail)
 

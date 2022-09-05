@@ -5,6 +5,8 @@ from subprocess import run
 from subprocess import Popen
 
 from uiautomationtools.selenium.appium.appium_shared import AppiumShared
+import uiautomationtools.helpers.directory_helpers as dh
+
 
 
 class AppiumAndroid(AppiumShared):
@@ -57,7 +59,9 @@ class AppiumAndroid(AppiumShared):
         Popen(r"(printf '\x1f\x8b\x08\x00\x00\x00\x00\x00' ; tail -c +25 backup.ab) | tar xfvz -", shell=True, cwd=cwd)
         self.time.sleep(5)
 
-        files = [f for f in iglob(cwd + '/apps//**', recursive=True) if not os.path.isdir(f)]
+        files = [f for f in iglob(cwd + f'{dh.DIRECTORY_SEPARATOR}apps{dh.DIRECTORY_SEPARATOR}{dh.DIRECTORY_SEPARATOR}**', recursive=True) if not os.path.isdir(f)]
+
+
 
         if clean:
             os.remove(backup)

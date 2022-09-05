@@ -77,12 +77,12 @@ def generate_steps(model_name: str, new_steps: str, generator: str = 'random(edg
     base_path = dh.get_root_dir()
     app_dir = app_dir or dh.get_src_app_dir()
 
-    models_dir = f'{base_path}/tests/{app_dir}/models'
-    model_files = [model for model in iglob(f'{models_dir}//**', recursive=True) if '.drawio' in model]
+    models_dir = f'{base_path}{dh.DIR_SEPARATOR}tests{dh.DIR_SEPARATOR}{app_dir}{dh.DIR_SEPARATOR}models'
+    model_files = [model for model in iglob(f'{models_dir}{dh.DIR_SEPARATOR}{dh.DIR_SEPARATOR}**', recursive=True) if '.drawio' in model]
     model_file = dh.find_reference_in_list(f'{model_name}.drawio', model_files)
 
-    steps_dir = f'{base_path}/tests/{app_dir}/steps'
-    steps_files = list(iglob(f'{steps_dir}//**', recursive=True))
+    steps_dir = f'{base_path}{dh.DIR_SEPARATOR}tests{dh.DIR_SEPARATOR}{app_dir}{dh.DIR_SEPARATOR}steps'
+    steps_files = list(iglob(f'{steps_dir}{dh.DIR_SEPARATOR}{dh.DIR_SEPARATOR}**', recursive=True))
     steps_file = dh.find_reference_in_list(f'{model_name}.json', steps_files)
 
     if new_steps:
@@ -133,7 +133,7 @@ def generate_steps(model_name: str, new_steps: str, generator: str = 'random(edg
         dh.make_json({'models': models}, json_model_file)
 
         dh.safe_mkdirs(steps_dir)
-        steps_file = steps_file or f'{steps_dir}/{model_name}.json'
+        steps_file = steps_file or f'{steps_dir}{dh.DIR_SEPARATOR}{model_name}.json'
         run(f'altwalker offline -m {json_model_file} "{generator}" -f {steps_file}', shell=True)
 
     return dh.load_json(steps_file)
