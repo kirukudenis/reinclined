@@ -1,6 +1,10 @@
 import os
 import json
 from glob import iglob
+import re
+import sys
+
+DIR_SEPARATOR = os.path.sep
 
 
 def safe_mkdirs(path):
@@ -28,7 +32,7 @@ def make_json(content, path, append=False, ensure_ascii=False):
         stored_json = load_json(path)
         content = {**stored_json, **content}
 
-    safe_mkdirs('/'.join(path.split('/')[:-1]))
+    safe_mkdirs(DIR_SEPARATOR.join(path.split(DIR_SEPARATOR)[:-1]))
     with open(path, 'w') as fp:
         json.dump(content, fp, indent=4, ensure_ascii=ensure_ascii)
 
@@ -60,7 +64,8 @@ def find_reference_in_list(name, references):
     Returns:
         reference (str): The matching reference from the list.
     """
-    return next((ref for ref in references if name == ref.split('/')[-1]), 0)
+    return next((ref for ref in references if name == ref.split(DIR_SEPARATOR)[-1]), 0)
+
 
 
 def get_root_dir():
@@ -70,11 +75,14 @@ def get_root_dir():
     Returns:
         root_dir (str): The root dir of the project.
     """
-    cwd = os.getcwd().split('/')
+    cwd = os.getcwd().split(DIR_SEPARATOR)
     path = ''
-    for p in cwd:
+    for index, p in enumerate(cwd):
         if p:
-            path += f'/{p}'
+            if sys.platform == "win32" and index == 0:
+                path += f'{p}'
+            else:
+                path += f'{DIR_SEPARATOR}{p}'
             if os.path.isdir(path) and 'Pipfile' in os.listdir(path):
                 return path
 
@@ -101,5 +109,31 @@ def expand_directory(path):
     """
     files = [path]
     if os.path.isdir(path):
-        files = [f for f in iglob(f'{path}//**', recursive=True) if 'ds_store' not in f.lower()]
+        files = [f for f in iglob(f'{path}{DIR_SEPARATOR}{DIR_SEPARATOR}**', recursive=True) if
+                 'ds_store' not in f.lower()]
     return files
+
+def is_mac(test_string: str) -> str:
+    """
+    This will make the path names uniform from platform to platform.
+
+    Args:
+        test_string (str): The current platform name.
+
+    Returns:
+        uniformed (str): Uniform platform name.
+    """
+    platform = sys.platform
+    if platform == "darwin":
+        pattern = '^Mac'
+        result = re.match(pattern, test_string, re.IGNORECASE)
+        uniformed = "macos" if result else result
+    elif platform == "win32":
+        pattern = '^Win'
+        result = re.match(pattern, test_string, re.IGNORECASE)
+        uniformed = "windows" if result else result
+    else:
+        pattern = '^Lin'
+        result = re.match(pattern, test_string, re.IGNORECASE)
+        uniformed = "linux" if result else result
+    return uniformed
