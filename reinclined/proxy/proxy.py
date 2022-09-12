@@ -3,8 +3,8 @@ import subprocess
 from mitmproxy import io
 from datetime import datetime
 
-import uiautomationtools.helpers.json_helpers as jh
-import uiautomationtools.helpers.directory_helpers as dh
+import reinclined.helpers.json_helpers as jh
+import reinclined.helpers.directory_helpers as dh
 
 
 class Proxy(object):

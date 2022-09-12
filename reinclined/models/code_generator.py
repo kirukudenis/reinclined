@@ -1,8 +1,8 @@
 from glob import iglob
 from typing import List
 import os
-from uiautomationtools.models.model_conversion import generate_steps, step_expander
-import uiautomationtools.helpers.directory_helpers as dh
+from reinclined.models.model_conversion import generate_steps, step_expander
+import reinclined.helpers.directory_helpers as dh
 
 
 class CodeGeneratorException(Exception):

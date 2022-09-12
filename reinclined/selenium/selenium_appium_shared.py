@@ -3,8 +3,8 @@ import time
 import selenium.common.exceptions as sce
 from selenium.webdriver.common.action_chains import ActionChains
 
-from uiautomationtools.logging.logger import Logger
-from uiautomationtools.helpers.list_helpers import unique_subsets
+from reinclined.logging.logger import Logger
+from reinclined.helpers.list_helpers import unique_subsets
 
 
 class SeleniumAppiumShared(object):

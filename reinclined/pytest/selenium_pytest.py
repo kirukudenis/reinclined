@@ -3,9 +3,9 @@ import shutil
 import importlib
 from glob import iglob
 
-import uiautomationtools.models.model_conversion as mc
-import uiautomationtools.helpers.string_helpers as sh
-import uiautomationtools.helpers.directory_helpers as dh
+import reinclined.models.model_conversion as mc
+import reinclined.helpers.string_helpers as sh
+import reinclined.helpers.directory_helpers as dh
 
 
 class PytestHelper(object):

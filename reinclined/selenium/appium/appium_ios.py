@@ -1,4 +1,4 @@
-from uiautomationtools.selenium.appium.appium_shared import AppiumShared
+from reinclined.selenium.appium.appium_shared import AppiumShared
 
 
 class AppiumIos(AppiumShared):

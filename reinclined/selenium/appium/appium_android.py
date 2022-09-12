@@ -4,8 +4,8 @@ from glob import iglob
 from subprocess import run
 from subprocess import Popen
 
-from uiautomationtools.selenium.appium.appium_shared import AppiumShared
-import uiautomationtools.helpers.directory_helpers as dh
+from reinclined.selenium.appium.appium_shared import AppiumShared
+import reinclined.helpers.directory_helpers as dh
 
 
 

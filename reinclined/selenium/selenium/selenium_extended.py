@@ -9,8 +9,8 @@ except:
 
 from selenium.webdriver.common.action_chains import ActionChains
 
-from uiautomationtools.selenium.selenium.selenium_remote import SeleniumRemote
-from uiautomationtools.selenium.selenium_appium_shared import SeleniumAppiumShared
+from reinclined.selenium.selenium.selenium_remote import SeleniumRemote
+from reinclined.selenium.selenium_appium_shared import SeleniumAppiumShared
 
 
 class SeleniumExtended(SeleniumRemote, SeleniumAppiumShared):

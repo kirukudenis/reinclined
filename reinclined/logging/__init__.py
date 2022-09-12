@@ -1,1 +1,1 @@
-from uiautomationtools.logging.logger import Logger
+from reinclined.logging.logger import Logger

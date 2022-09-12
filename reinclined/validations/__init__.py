@@ -1,1 +1,1 @@
-from uiautomationtools.validations.validations import Validations
+from reinclined.validations.validations import Validations

@@ -4,9 +4,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-from uiautomationtools.logging.logger import Logger
-import uiautomationtools.helpers.directory_helpers as dh
-from uiautomationtools.proxy.proxy import Proxy
+from reinclined.logging.logger import Logger
+import reinclined.helpers.directory_helpers as dh
+from reinclined.proxy.proxy import Proxy
 
 
 class SeleniumRemote(webdriver.Remote):

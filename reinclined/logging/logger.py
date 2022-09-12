@@ -2,7 +2,7 @@ import os
 import re
 import logging
 from datetime import datetime
-import uiautomationtools.helpers.directory_helpers as dh
+import reinclined.helpers.directory_helpers as dh
 
 
 class Logger(object):

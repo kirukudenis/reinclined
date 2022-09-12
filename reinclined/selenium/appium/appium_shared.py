@@ -2,7 +2,7 @@ from appium import webdriver
 from langdetect import detect
 from appium.webdriver.common.touch_action import TouchAction
 
-from uiautomationtools.selenium.selenium_appium_shared import SeleniumAppiumShared
+from reinclined.selenium.selenium_appium_shared import SeleniumAppiumShared
 
 
 class AppiumShared(webdriver.Remote, SeleniumAppiumShared):

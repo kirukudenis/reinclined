@@ -4,8 +4,8 @@ from glob import iglob
 from datetime import datetime
 from bs4 import BeautifulSoup
 
-import uiautomationtools.helpers.dictionary_helpers as dict_helpers
-import uiautomationtools.helpers.directory_helpers as dir_helpers
+import reinclined.helpers.dictionary_helpers as dict_helpers
+import reinclined.helpers.directory_helpers as dir_helpers
 
 
 class Validations(object):

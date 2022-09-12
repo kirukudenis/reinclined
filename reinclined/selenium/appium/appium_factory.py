@@ -1,5 +1,5 @@
-from uiautomationtools.selenium.appium.appium_ios import AppiumIos
-from uiautomationtools.selenium.appium.appium_android import AppiumAndroid
+from reinclined.selenium.appium.appium_ios import AppiumIos
+from reinclined.selenium.appium.appium_android import AppiumAndroid
 
 
 def appium_factory(command_executor='http://127.0.0.1:4723/wd/hub', desired_capabilities=None, proxy=None,
