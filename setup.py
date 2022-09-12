@@ -25,14 +25,14 @@ requires = [
 
 
 setup(
-    name="ui-automation-tools-mbt",
+    name="reinclined",
     version="1.3.1",
-    author="Ashton Szabo",
-    author_email="ashton.szabo@rakuten.com",
-    description="Tools for UI automation using model based testing",
+    author="Denis Kiruku",
+    author_email="denniskiruku@gmail.com",
+    description="Tools for UI automation using model based testing ... cloned form https://github.com/rakutentech/ui-automation-tools-mbt with few window adaptation.",
     long_description=readme(),
     long_description_content_type="text/markdown",
-    url="https://github.com/rakutentech/ui-automation-tools-mbt",
+    url="https://github.com/kirukudenis/ui-automation-tools-mbt.git",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
